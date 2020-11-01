@@ -34,7 +34,8 @@
             {
                 foreach (var hotel in this.Hotels)
                 {
-                    Console.WriteLine("Hotel Name: {0} and Rate: {1}", hotel.hotelName, hotel.regularRate);
+                    Console.WriteLine("Hotel Name: {0} and Weekday Rate and {1} and Weekend Rate", hotel.hotelName,
+                        hotel.weekdayRegularRate, hotel.weekendRegularRate);
                 }
             }
             catch (CustomException)
@@ -84,23 +85,70 @@
         public Hotel FindCheapestHotelForGivenTime(DateTime startDate, DateTime endDate)
         {
             TimeSpan timeSpan = endDate.Subtract(startDate); ////End date- start date = Days stayed in hotel.
-            double numberOfDaysStayed = timeSpan.TotalDays;  ////Inbuilt function
+            int numberOfDaysStayed = (int)timeSpan.TotalDays;  ////Inbuilt function
+            int weekDays = GetWeekdaysDuringStay(startDate, endDate);   ////Weekdays
+            int weekEnds = numberOfDaysStayed - weekDays; ////Total - weekdays
+
+            Hotel cheapestHotel = this.CheapestHotel(weekDays, weekEnds);
+            double totalBill = (weekDays * cheapestHotel.weekdayRegularRate) +
+                               (weekEnds * cheapestHotel.weekendRegularRate);
+            Console.WriteLine("Cheapest hotel available:" + cheapestHotel.hotelName);
+            Console.WriteLine("Cheapest Rate available at: " + totalBill);
+            return cheapestHotel;
+        }
+
+        public Hotel CheapestHotel(int weekDays, int weekEnds)
+        {
             Hotel cheapestAvailableHotel = Hotels[0]; ////Cheapest Hotel Available
 
-            ////Calculation of total bill:
-            double totalBill = numberOfDaysStayed * cheapestAvailableHotel.regularRate;
-
-            foreach (Hotel hotels in Hotels)
+            foreach (Hotel hotels in this.Hotels)
             {
-                if (hotels.regularRate < cheapestAvailableHotel.regularRate)
+                double weekDayRate = hotels.weekdayRegularRate; ////Declaring for weekday rate
+                double weekEndRate = hotels.weekendRegularRate; ////Declaring for weekend rate
+                double rateOfHotel = (weekDays * weekDayRate) + (weekEnds * weekEndRate);
+                double cheapestRateOfHotel = (weekDays * cheapestAvailableHotel.weekdayRegularRate) +
+                                             (weekEnds * cheapestAvailableHotel.weekendRegularRate);
+
+                if (rateOfHotel < cheapestRateOfHotel)
                 {
                     cheapestAvailableHotel = hotels;
                 }
             }
-            Console.WriteLine("Cheapest hotel available" + cheapestAvailableHotel.hotelName);
-            Console.WriteLine("Cheapest price available at: " + totalBill);
             return cheapestAvailableHotel;
         }
 
+        /// <summary>
+        /// Check weekdays. Then subtract from total days to get weekends.
+        /// </summary>
+        /// <param name="startDate"></param>
+        /// <param name="endDate"></param>
+        /// <returns></returns>
+        public int GetWeekdaysDuringStay(DateTime startDate, DateTime endDate)
+        {
+            int numberOfDays = 0;
+            ////Start date canot be after end date.
+            try
+            {
+                if (startDate >= endDate)
+                {
+                    throw new CustomException(CustomException.ExceptionType.INVALID_DATE, "Start date cannot be after end date");
+                }
+            }
+            catch
+            {
+                while (startDate <= endDate)
+                {
+                    ////Checking start days is Weekend or not
+                    if (startDate.DayOfWeek != DayOfWeek.Saturday && startDate.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        ++numberOfDays;
+                    }
+
+                    startDate = startDate.AddDays(1);
+                }
+            }
+
+            return numberOfDays;
+        }
     }
 }
