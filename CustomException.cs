@@ -13,6 +13,7 @@ namespace HotelReservationSystem
         {
            INVALID_NAME,
            NULL_NAME,
+           DATE_BEFORE_RECORDS,DATE_AFTER_RECORDS
         }
 
         ExceptionType type;

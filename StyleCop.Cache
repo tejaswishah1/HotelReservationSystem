@@ -92,7 +92,7 @@
     <timestamps>
       <styleCop>2020-10-27 15:55:23.894</styleCop>
       <settingsFile>2020-10-27 15:55:23.805</settingsFile>
-      <sourceFile>2020-11-01 10:05:18.027</sourceFile>
+      <sourceFile>2020-11-01 11:18:08.189</sourceFile>
       <parser>2020-10-27 15:55:23.894</parser>
       <StyleCop.CSharp.DocumentationRules>2020-10-27 15:55:23.894</StyleCop.CSharp.DocumentationRules>
       <StyleCop.CSharp.DocumentationRules.FilesHashCode>-1050410716</StyleCop.CSharp.DocumentationRules.FilesHashCode>
@@ -117,12 +117,33 @@
       </violation>
       <violation namespace="StyleCop.CSharp.MaintainabilityRules" rule="FieldsMustBePrivate" ruleCheckId="SA1401">
         <context>Fields must be declared with private access. Use properties to expose fields.</context>
-        <line>15</line>
+        <line>16</line>
         <warning>False</warning>
       </violation>
       <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementParameterDocumentationMustHaveText" ruleCheckId="SA1614">
         <context>The documentation text within the param tag for the '&lt;param name="newHotelAdd" /&gt;' parameter must not be empty.</context>
-        <line>21</line>
+        <line>22</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.SpacingRules" rule="KeywordsMustBeSpacedCorrectly" ruleCheckId="SA1000">
+        <context>The spacing around the keyword 'catch' is invalid.</context>
+        <line>40</line>
+        <index>1195</index>
+        <endIndex>1199</endIndex>
+        <startLine>40</startLine>
+        <startColumn>13</startColumn>
+        <endLine>40</endLine>
+        <endColumn>17</endColumn>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementParameterDocumentationMustHaveText" ruleCheckId="SA1614">
+        <context>The documentation text within the param tag for the '&lt;param name="date" /&gt;' parameter must not be empty.</context>
+        <line>51</line>
+        <warning>False</warning>
+      </violation>
+      <violation namespace="StyleCop.CSharp.DocumentationRules" rule="ElementReturnValueDocumentationMustHaveText" ruleCheckId="SA1616">
+        <context>The returns section in the documentation header must not be empty.</context>
+        <line>51</line>
         <warning>False</warning>
       </violation>
     </violations>
