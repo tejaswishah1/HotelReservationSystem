@@ -101,5 +101,6 @@
             Console.WriteLine("Cheapest price available at: " + totalBill);
             return cheapestAvailableHotel;
         }
+
     }
 }
