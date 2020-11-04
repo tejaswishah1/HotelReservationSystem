@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.Linq;
     using System.Text;
 
     /// <summary>
@@ -14,6 +15,10 @@
         /// List to store details of hotels
         /// </summary>
         public List<Hotel> Hotels = new List<Hotel>();
+        /// <summary>
+        /// Declaring cheapest rate for hotel fare.
+        /// </summary>
+        public static double cheapestRate = 0;
 
         /// <summary>
         /// Add details of hotel:
@@ -82,39 +87,25 @@
         /// <param name="startDate"></param>
         /// <param name="endDate"></param>
         /// <returns></returns>
-        public Hotel FindCheapestHotelForGivenTime(DateTime startDate, DateTime endDate)
+        public List<Hotel> FindCheapestHotelForGivenTime(DateTime startDate, DateTime endDate)
         {
             TimeSpan timeSpan = endDate.Subtract(startDate); ////End date- start date = Days stayed in hotel.
             int numberOfDaysStayed = (int)timeSpan.TotalDays;  ////Inbuilt function
             int weekDays = GetWeekdaysDuringStay(startDate, endDate);   ////Weekdays
             int weekEnds = numberOfDaysStayed - weekDays; ////Total - weekdays
+            cheapestRate = CheapestHotel(weekDays, weekEnds);
+            var cheapestAvailableHotel = Hotels.Where(Hotel => (weekDays * Hotel.weekdayRegularRate) +
+             (weekEnds * Hotel.weekendRegularRate) == cheapestRate).ToList();
+            return cheapestAvailableHotel;
 
-            Hotel cheapestHotel = this.CheapestHotel(weekDays, weekEnds);
-            double totalBill = (weekDays * cheapestHotel.weekdayRegularRate) +
-                               (weekEnds * cheapestHotel.weekendRegularRate);
-            Console.WriteLine("Cheapest hotel available:" + cheapestHotel.hotelName);
-            Console.WriteLine("Cheapest Rate available at: " + totalBill);
-            return cheapestHotel;
+
         }
 
-        public Hotel CheapestHotel(int weekDays, int weekEnds)
+        public double CheapestHotel(int weekDays, int weekEnds)
         {
-            Hotel cheapestAvailableHotel = Hotels[0]; ////Cheapest Hotel Available
-
-            foreach (Hotel hotels in this.Hotels)
-            {
-                double weekDayRate = hotels.weekdayRegularRate; ////Declaring for weekday rate
-                double weekEndRate = hotels.weekendRegularRate; ////Declaring for weekend rate
-                double rateOfHotel = (weekDays * weekDayRate) + (weekEnds * weekEndRate);
-                double cheapestRateOfHotel = (weekDays * cheapestAvailableHotel.weekdayRegularRate) +
-                                             (weekEnds * cheapestAvailableHotel.weekendRegularRate);
-
-                if (rateOfHotel < cheapestRateOfHotel)
-                {
-                    cheapestAvailableHotel = hotels;
-                }
-            }
-            return cheapestAvailableHotel;
+            double cheapestHotel = Hotels.Min(Hotel => (weekDays * Hotel.weekdayRegularRate) + (weekEnds * Hotel.weekendRegularRate));
+            return cheapestHotel;
+           
         }
 
         /// <summary>
@@ -150,5 +141,30 @@
 
             return numberOfDays;
         }
+        /// <summary>
+        /// Cheapest best rated Hotel
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public List<Hotel> FindCheapestBestRatedHotel(DateTime start, DateTime end)
+        {
+            List<Hotel> cheapestHotels = FindCheapestHotelForGivenTime(start,end);
+            int maxRating = cheapestHotels.Max(hotel => hotel.hotelRating);
+            return cheapestHotels.FindAll(hotel => hotel.hotelRating == maxRating);
+        }
+        
+        public void DisplayCheapestBestRatedHotel(List<Hotel> cheapestHotel)
+        {
+            foreach (Hotel hotel in cheapestHotel)
+            {
+                Console.WriteLine("Hotel name: " + hotel.hotelName + "Total bill :" + cheapestRate);
+            }
+        }
+
+
+
+
+
     }
 }

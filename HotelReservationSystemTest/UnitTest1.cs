@@ -15,9 +15,9 @@ namespace HotelReservationSystemTest
         public void GIVEN_DETAILS_OF_HOTEL_RETURN_COUNT_OF_HOTELS()
         {
             HotelReservation hotel = new HotelReservation();
-            hotel.AddHotel(new Hotel("Lakewood", 110,90));
-            hotel.AddHotel(new Hotel("Bridgewood", 160,60));
-            hotel.AddHotel(new Hotel("Ridgewood", 220,150));
+            hotel.AddHotel(new Hotel("Lakewood", 110, 90,3));
+            hotel.AddHotel(new Hotel("Bridgewood", 160, 60,4));
+            hotel.AddHotel(new Hotel("Ridgewood", 220, 150,5));
 
             int expected = 3;
             int actual = hotel.Hotels.Count();
@@ -37,9 +37,9 @@ namespace HotelReservationSystemTest
             ////Create instance
             HotelReservation hotel = new HotelReservation();
             ////Add Hotels
-            hotel.AddHotel(new Hotel("Lakewood", 110,90));
-            hotel.AddHotel(new Hotel("Bridgewood", 160,60));
-            hotel.AddHotel(new Hotel("Ridgewood", 220,150));
+            hotel.AddHotel(new Hotel("Lakewood", 110, 90,3));
+            hotel.AddHotel(new Hotel("Bridgewood", 160, 60,4));
+            hotel.AddHotel(new Hotel("Ridgewood", 220, 150,5));
             ////Check cheapest available hotel
             Hotel cheapestAvailableHotel = hotel.FindCheapestHotelForGivenTime(startDate, endDate);
 
@@ -48,5 +48,7 @@ namespace HotelReservationSystemTest
             ////Assert
             Assert.AreEqual(expected, actual);
         }
+
+
     }
 }

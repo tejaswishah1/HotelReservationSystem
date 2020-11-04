@@ -35,12 +35,12 @@ namespace HotelReservationSystem
         /// Hotel Rating
         /// </summary>
         public int hotelRating;
-    /// <summary>
-    /// Parametrised Constructor
-    /// </summary>
-    /// <param name="hotelName"></param>
-    /// <param name="regularRate"></param>
-        public Hotel(string hotelName, int weekdayRegularRate, int weekendRegularRate,int hotelRating)
+        /// <summary>
+        /// Parametrised Constructor
+        /// </summary>
+        /// <param name="hotelName"></param>
+        /// <param name="regularRate"></param>
+        public Hotel(string hotelName, int weekdayRegularRate, int weekendRegularRate, int hotelRating)
         {
             this.hotelName = hotelName;
             //this.regularRate = regularRate;
@@ -48,6 +48,8 @@ namespace HotelReservationSystem
             this.weekendRegularRate = weekendRegularRate;
             this.hotelRating = hotelRating;
         }
+
+      
     }
 }
 
